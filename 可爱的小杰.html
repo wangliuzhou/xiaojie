@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可爱小杰</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #5a3e36;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        header {
+            margin: 30px 0;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: #ff4e7b;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #8a5a44;
+            margin-bottom: 20px;
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 5px solid white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .avatar::before {
+            content: "✨";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+        }
+        
+        .praise-text {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            min-height: 80px;
+            padding: 15px;
+            background: rgba(255, 248, 225, 0.7);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .praise-btn {
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            color: white;
+        }
+        
+        .praise-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(255, 117, 140, 0.4);
+        }
+        
+        .heart-btn {
+            background: linear-gradient(to right, #42e695, #3bb2b8);
+            color: white;
+        }
+        
+        .heart-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .surprise-btn {
+            background: linear-gradient(to right, #ffb347, #ffcc33);
+            color: white;
+        }
+        
+        .surprise-btn:hover {
+            animation: shake 0.5s ease infinite;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 15px;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff4e7b;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #8a5a44;
+        }
+        
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #ff4e7b;
+            opacity: 0;
+        }
+        
+        footer {
+            margin-top: 20px;
+            color: #8a5a44;
+            font-size: 0.9rem;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(0deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        
+        @keyframes heartFloat {
+            0% { transform: translateY(0) scale(0); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
+        
+        .clickable-words {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .word {
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px dashed #ff9a9e;
+        }
+        
+        .word:hover {
+            background: #ff9a9e;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .avatar {
+                width: 150px;
+                height: 150px;
+                font-size: 4rem;
+            }
+            
+            .praise-text {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✨ 可爱小杰 ✨</h1>
+            <p class="subtitle">专门为颜值爆表的小杰设计的页面</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="floating-hearts" id="hearts-container"></div>
+            
+            <div class="avatar">
+                😎
+            </div>
+            
+            <div class="praise-text" id="praise-text">
+                点击下方按钮，解锁对小杰颜值的花式夸赞！
+            </div>
+            
+            <div class="interactive-buttons">
+                <button class="btn praise-btn" id="new-praise">新夸赞</button>
+                <button class="btn heart-btn" id="send-hearts">发送小心心</button>
+                <button class="btn surprise-btn" id="surprise">惊喜特效</button>
+            </div>
+            
+            <div class="clickable-words">
+                <div class="word" data-word="美丽">美丽</div>
+                <div class="word" data-word="迷人">迷人</div>
+                <div class="word" data-word="阳光">阳光</div>
+                <div class="word" data-word="精致">精致</div>
+                <div class="word" data-word="可爱">可爱</div>
+                <div class="word" data-word="萌妹">萌妹</div>
+                <div class="word" data-word="娇嫩">娇嫩</div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="praise-count">0</div>
+                    <div class="stat-label">夸赞次数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="hearts-sent">0</div>
+                    <div class="stat-label">小心心发送</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="surprise-count">0</div>
+                    <div class="stat-label">惊喜次数</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>本页面专为颜值担当小杰设计 | 刷新页面重置计数</p>
+        </footer>
+    </div>
+
+    <script>
+        // 夸赞语句库
+        const praises = [
+            "小杰的颜值简直是人类颜值天花板！✨",
+            "看到小杰的第一眼，我就知道什么叫惊为天人！😍",
+            "小杰这张脸，是女娲娘娘的毕业设计作品吧！🎨",
+            "小杰的颜值，让星星都黯然失色！🌟",
+            "小杰一笑，我的心跳就漏了一拍！💓",
+            "小杰的颜值，是可以用眼睛品尝的甜品！🍰",
+            "小杰的美丽，是那种让人想截图保存的程度！📸",
+            "小杰这张脸，不去拍电影真是观众的损失！🎬",
+            "小杰的颜值，是连美颜相机都自愧不如的水平！🤳",
+            "小杰的可爱，是那种可以治愈一切烦恼的存在！🌈"
+        ];
+        
+        // 获取DOM元素
+        const praiseText = document.getElementById('praise-text');
+        const newPraiseBtn = document.getElementById('new-praise');
+        const sendHeartsBtn = document.getElementById('send-hearts');
+        const surpriseBtn = document.getElementById('surprise');
+        const praiseCount = document.getElementById('praise-count');
+        const heartsSent = document.getElementById('hearts-sent');
+        const surpriseCount = document.getElementById('surprise-count');
+        const heartsContainer = document.getElementById('hearts-container');
+        const words = document.querySelectorAll('.word');
+        
+        // 初始化计数
+        let praiseCounter = 0;
+        let heartsCounter = 0;
+        let surpriseCounter = 0;
+        
+        // 新夸赞按钮点击事件
+        newPraiseBtn.addEventListener('click', function() {
+            const randomIndex = Math.floor(Math.random() * praises.length);
+            praiseText.textContent = praises[randomIndex];
+            praiseCounter++;
+            praiseCount.textContent = praiseCounter;
+            
+            // 添加文字动画效果
+            praiseText.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                praiseText.style.transform = 'scale(1)';
+            }, 300);
+            
+            // 添加一些闪烁效果
+            createSparkles(5);
+        });
+        
+        // 发送小心心按钮点击事件
+        sendHeartsBtn.addEventListener('click', function() {
+            heartsCounter++;
+            heartsSent.textContent = heartsCounter;
+            
+            // 创建漂浮的心形
+            for (let i = 0; i < 10; i++) {
+                createHeart();
+            }
+        });
+        
+        // 惊喜按钮点击事件
+        surpriseBtn.addEventListener('click', function() {
+            surpriseCounter++;
+            surpriseCount.textContent = surpriseCounter;
+            
+            // 多重特效
+            createSparkles(20);
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+            
+            // 背景颜色变化
+            document.body.style.background = 'linear-gradient(135deg, #a8edea, #fed6e3)';
+            setTimeout(() => {
+                document.body.style.background = 'linear-gradient(135deg, #ffafbd, #ffc3a0)';
+            }, 1000);
+            
+            // 显示随机夸赞
+            const randomIndex = Math.floor(Math.random() * praises.length);
+            praiseText.textContent = praises[randomIndex];
+        });
+        
+        // 点击词汇事件
+        words.forEach(word => {
+            word.addEventListener('click', function() {
+                const selectedWord = this.getAttribute('data-word');
+                praiseText.textContent = `小杰的${selectedWord}程度，简直无法用语言形容！✨`;
+                praiseCounter++;
+                praiseCount.textContent = praiseCounter;
+                
+                // 添加点击效果
+                this.style.background = '#ff4e7b';
+                this.style.color = 'white';
+                setTimeout(() => {
+                    this.style.background = 'rgba(255, 255, 255, 0.7)';
+                    this.style.color = 'inherit';
+                }, 500);
+            });
+        });
+        
+        // 创建心形函数
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            
+            heartsContainer.appendChild(heart);
+            
+            // 动画
+            const animation = heart.animate([
+                { transform: 'translateY(0) scale(0)', opacity: 1 },
+                { transform: 'translateY(-100px) scale(1)', opacity: 0 }
+            ], {
+                duration: Math.random() * 2000 + 1000,
+                easing: 'ease-out'
+            });
+            
+            animation.onfinish = () => {
+                heart.remove();
+            };
+        }
+        
+        // 创建闪烁效果
+        function createSparkles(count) {
+            for (let i = 0; i < count; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                
+                document.querySelector('.main-content').appendChild(sparkle);
+                
+                // 动画
+                const animation = sparkle.animate([
+                    { opacity: 0, transform: 'scale(0)' },
+                    { opacity: 1, transform: 'scale(1)' },
+                    { opacity: 0, transform: 'scale(0)' }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-in-out'
+                });
+                
+                animation.onfinish = () => {
+                    sparkle.remove();
+                };
+            }
+        }
+        
+        // 初始加载时显示一些小心心
+        window.addEventListener('load', function() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 300);
+            }
+        });
+    </script>
+</body>
+</html>
